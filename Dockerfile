@@ -8,8 +8,8 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 # Copy the application code
 COPY api/ ./api/
-# Copy the trained model
-COPY models/ ./models/
+# Create models directory (model will be mounted at runtime in production)
+RUN mkdir -p ./models
 # Expose the port
 EXPOSE 8000
 # Start Command
