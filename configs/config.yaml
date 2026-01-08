@@ -1,0 +1,22 @@
+$schema: "https://raw.githubusercontent.com/iterative/dvc/master/schemas/config/v2.0.0.yaml"
+data:
+    raw: data/raw/creditcard.csv
+    processed: data/processed
+    train: data/train
+    test: data/test
+    val: data/val
+    inference: data/inference
+# Model Parameters
+model:
+    random_state: 42
+    test_size: 0.2
+    val_size: 0.2
+
+# Training Parameter
+training:
+    algorithm: xgboost
+    n_estimators: 100
+    max_depth: 6
+    learning_rate: 0.1
+    scale_pos_weight: 577 # To handle class imbalance(normal/fraud ratio)
+        

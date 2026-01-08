@@ -1,0 +1,29 @@
+# Data files (too large for Git)
+data/
+*.csv
+
+# Model files (use DVC instead)
+models/
+
+# MLflow
+mlruns/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+venv/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
