@@ -3,6 +3,9 @@ from pydantic import BaseModel
 from xgboost import XGBClassifier
 import pandas as pd
 import numpy as np
+import json
+import datetime
+import os
 
 # Create Fast Api instance
 app = FastAPI(
@@ -62,6 +65,16 @@ def predict(data: TransactionData):
     input_data = pd.DataFrame([data.dict()])
     prediction = model.predict(input_data)[0]
     probability = model.predict_proba(input_data)[0][1]  # Probability of fraud
+    log_entry = data.dict()
+    log_entry.update({
+        "prediction": int(prediction),
+        "probability": float(probability),
+        "timestamp": datetime.datetime.now().isoformat()
+    })
+    
+    os.makedirs("logs", exist_ok=True)
+    with open("logs/predictions.json", "a") as f:
+        f.write(json.dumps(log_entry) + "\n")
     return {
         "prediction": int(prediction),
         "is_fraud": bool(prediction),
