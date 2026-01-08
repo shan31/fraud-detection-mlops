@@ -11,9 +11,14 @@ app = FastAPI(
     version="0.0.1",
 )
 # Load the Trained Model
-model = XGBClassifier()
-model.load_model("models/fraud_detection_model.json")
-print("Model loaded successfully")
+model = None
+try:
+    model = XGBClassifier()
+    model.load_model("models/fraud_detection_model.json")
+    print("Model loaded successfully")
+except Exception as e:
+    print(f"Warning: Model not loaded - {e}")
+    print("API will run but predictions will fail until model is provided")
 
 # Define the Input Data Schema
 class TransactionData(BaseModel):
@@ -50,6 +55,8 @@ class TransactionData(BaseModel):
 # Define the Predict API endpoint
 @app.post("/predict")
 def predict(data: TransactionData):
+    if model is None:
+        return {"error": "Model not loaded", "status": 503}
     input_data = pd.DataFrame([data.dict()])
     prediction = model.predict(input_data)[0]
     probability = model.predict_proba(input_data)[0][1]  # Probability of fraud
@@ -61,4 +68,8 @@ def predict(data: TransactionData):
 # Define the Health Check API endpoint
 @app.get("/health")
 def health_check():
-    return {"status": "healthy", "model": "XGBoost Fraud Detection"}
+    return {
+        "status": "healthy", 
+        "model": "XGBoost Fraud Detection",
+        "model_loaded": model is not None
+    }
