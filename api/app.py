@@ -13,10 +13,12 @@ app = FastAPI(
 # Load the Trained Model
 model = None
 try:
-    model = XGBClassifier()
-    model.load_model("models/fraud_detection_model.json")
+    temp_model = XGBClassifier()
+    temp_model.load_model("models/fraud_detection_model.json")
+    model = temp_model  # Only assign if loading succeeds
     print("Model loaded successfully")
 except Exception as e:
+    model = None
     print(f"Warning: Model not loaded - {e}")
     print("API will run but predictions will fail until model is provided")
 
