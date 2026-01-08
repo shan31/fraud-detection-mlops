@@ -1,4 +1,3 @@
-$schema: "https://github.com/iterative/iterative-cd/raw/main/schemas/ci-cd.yaml"
 # Workflow name
 name: Fraud Detection CI/CD
 # Trigger Events
