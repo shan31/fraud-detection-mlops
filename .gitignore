@@ -3,7 +3,8 @@ data/
 *.csv
 
 # Model files (use DVC instead)
-models/
+models/*
+!models/.gitkeep
 
 # MLflow
 mlruns/
