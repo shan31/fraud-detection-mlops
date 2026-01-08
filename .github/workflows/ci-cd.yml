@@ -27,7 +27,8 @@ jobs:
       # Step 4: Run Tests
       - name: Run Tests
         run: |
-          echo "No tests yet -add pytest later"
+          pip install pytest httpx
+          pytest tests/ -v
       # Step 5: Build Docker image
       - name: Build Docker image
         run: |
